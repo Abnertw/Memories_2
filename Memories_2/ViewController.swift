@@ -111,7 +111,6 @@ class ViewController: UIViewController {
         var year = dateComponents.year!
         year -= 1
         cutePetImageView.image = UIImage(named: yearImages[year])
-        // yearSlider.value = Float(year)  Betty有這一行，可連動slider
     }
     
     
