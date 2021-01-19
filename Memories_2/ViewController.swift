@@ -21,17 +21,19 @@ class ViewController: UIViewController {
     
 
     
-    // 若要將上述的照片陣列與datePicker一一對照的話，
-    // 就要先讀取日期系統之一的DateFormatter()
+    // 為了可以讓陣列中的資料，在datePicker中順利運作，
+    // 我們必須將陣列中的數字轉成Date(日期)的字串，
+    // 然後再將日期的字串轉成Date型別的資料，才能順利地設定到datePicker中
     // 補充：Swift的Date因為無法獨自顯示於畫上，
-    //      所以必須透過String來做轉換才能呈現
-    // 所以我們可以先宣告一個空的日期字串，並存於變數中，以供使用
+    //      所以必須透過String(字串)來做轉換才能呈現到畫面上。
+    // 首先，我們先讀取日期系統之一的DateFormatter()
+    // 再宣告一個空的日期字串，並存於變數中，以供使用
     // 並建立一個func及使用適用於多個如果的switch case來做對照
     // 對照完後，即可將我們自己所指定的日期與格式存入常數中
-    // 再將常數存入datePicker的date中
+    // 再將常數存入datePicker的date中，即轉換成功。
     let dateFormatter = DateFormatter()
     var dateString:String = ""
-    func contrast(number:Int) {
+    func changeType(number:Int) {
         switch number {
         case 0:
             dateString = "20110407"
@@ -60,20 +62,24 @@ class ViewController: UIViewController {
     
     
     
-    // 解釋：接下來要處理的是，比較陣列中的資料
-    // 先宣告一個變數，以備使用
+    // 轉換完後，接下來要進行比較(compare)
+    // 讓我們先宣告一個可進行比較的(自訂)參考值做為變數，做為比較使用
+    // imageNumber即為我們自訂的參考值，目的是與陣列中照片的數量去做比較
     // 再建立一個func及運用if else去做比較，
     // 比較的方式，可依個人需求做不同的條件設定
     // 條件設定與比較完成後，就將所宣告的變數轉為Float，並存入slider的值中
+    // (因為slider的型別為Float)
     // 與slider連動後，每次滑動即增加1次照片數量
+    // 補充：compare時timer會觸發，每次imageNumber會加1
+    //      若imageNumber >= yearImages.count時，就會把imageNumber變成0
     var imageNumber = 0
     func compare() {
         if imageNumber >= yearImages.count {
             imageNumber = 0
-            contrast(number: imageNumber)
+            changeType(number: imageNumber)
             cutePetImageView.image = UIImage(named: yearImages[imageNumber])
         } else {
-            contrast(number: imageNumber)
+            changeType(number: imageNumber)
             cutePetImageView.image = UIImage(named: yearImages[imageNumber])
         }
         yearSlider.value = Float(imageNumber)
@@ -82,7 +88,7 @@ class ViewController: UIViewController {
     
     
     
-    // 解釋：在對照與比較完照片數量後，即可始開啟timer(計時器)
+    // 解釋：在轉換與比較完照片數量後，即可始開啟timer(計時器)
     // 開啟計時器後，先建立一個func
     // 並於大括號內，要求計時器所要做的功能，如:
     // withTimeInterval(計時器每幾秒更換一張照片)
